@@ -13,6 +13,4 @@
 #load-sse3
 module load r
 
-cd /global/home/hpc4300/BIM_Final_Rcodes
-
-R CMD BATCH BIM_Final_step3_analyse_data.R
+Rscript /global/home/hpc4300/BIM_Final_RCodes/BIM_Final_step3_analyse_data.R

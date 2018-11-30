@@ -13,13 +13,10 @@
 #load-sse3
 module load r
 
-cd /global/home/hpc4300/BIM_Final_Rcodes
+Rscript /global/home/hpc4300/BIM_Final_Rcodes/BIM_Final_step1_prelim_codes.R
 
 
-
-R CMD BATCH BIM_Final_step1_prelim_codes.R
-
-R CMD BATCH BIM_Final_step2_subsetdata_Prepare_Dataset.R
+Rscript /global/home/hpc4300/BIM_Final_Rcodes/BIM_Final_step2_subsetdata_Prepare_Dataset.R
 
 
 echo "End of program at 'date'"
