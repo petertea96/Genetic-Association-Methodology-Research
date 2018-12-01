@@ -11,6 +11,7 @@
 #SBATCH --mem=40GB
 # commands for your job go here
 
+#This is the first script to run.
 #This script generates genetic datasets.
 
 cd /global/project/hpcg1578/Peter

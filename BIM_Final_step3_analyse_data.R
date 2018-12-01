@@ -66,7 +66,30 @@ source("BIM_Rcode_Calculate_all_kernels.R")
 source("BIM_Rcode_NEW_gtsm.R")
 source("BIM_Rcode_MDMR_Code.R")
 source("BIM_RCode_SLT.R")
-for (index in (1:2500)){
+
+
+#  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
+#-----||-----||-----||-----||-----||Array Job Code:||-----||-----||-----||-----||-----||-----#
+#  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
+#I set an aray job with 10 "arrays". I will split up the files to analyse into 10 chunks:
+#There are 2500 files in total to potentially analyse, so I split this into 11 chunks with
+#250 files belonging to each chunk.
+
+slurm_arrayid <- Sys.getenv('SLURM_ARRAY_TASK_ID')
+n <- as.numeric(slurm_arrayid)
+#Obtain Slurm Task ID.  
+
+
+#Now, determine indices of data files to analyse:
+total_files=seq(from=1, to= 2501, by=250)
+
+starting = total_files[n]
+  #Compute starting index
+
+ending = total_files[n+1] - 1
+  #Compute ending index
+
+for (index in (starting:ending)){
   Phenotype1_Results_SKAT[index,1] = Phenotype1_Results_Reg[index,1] = Phenotype1_Results_MDMR[index,1] = Phenotype1_Results_SLT[index,1]=Phenotype2_Results_SKAT[index,1] = Phenotype2_Results_Reg[index,1] = Phenotype2_Results_MDMR[index,1] = Phenotype2_Results_SLT[index,1]=index
   
   Phenotype1_Results_SKAT[index,2] = Phenotype2_Results_SKAT[index,2] = "SKAT"

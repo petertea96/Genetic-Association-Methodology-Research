@@ -11,6 +11,10 @@
 #SBATCH --mem=8GB
 # commands for your job go here
 #load-sse3
+
+#This is the second script to run.
+#First we reformat the data. Then, we simulate phenotype data given the 
+#genetic data we simulated from the previous script.
 module load r
 
 Rscript /global/home/hpc4300/BIM_Final_Rcodes/BIM_Final_step1_prelim_codes.R
