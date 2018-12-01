@@ -17,6 +17,6 @@
 cd /global/project/hpcg1578/Peter
 for i in `seq 1 2500`;
 do 
-./ms 200 1 -t 4.5 -T > /global/home/hpc4300/BIM_Final_Data/results$i.txt
+./ms 200 1 -t 4.5 -T > /global/home/hpc4300/BIM_Final_Raw_Data/results$i.txt
 done
  
