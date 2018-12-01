@@ -8,7 +8,7 @@ rare_causal_list = list()
 #rare causal. This will be compared to when I run the Single Locus Tests.
 
 
-source("BIM_Rcode_Simulation_help.R")
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Simulation_help.R")
 for (j in (1:2500)){
   
   ## Read in the haplotype data. Must specify that it is type "character". 
@@ -22,11 +22,23 @@ for (j in (1:2500)){
   
   haplodat=read.table(filename, colClasses=c("character"))
   
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  #-----||-----||-----||-----||-----||Obsolete Code||-----||-----||-----||-----||-----||-----#
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  #The following code was used to obtain the number of SNP sites. But, further research (by me)
+  # has shown that some SNPs are perfectly correlated. We will only keep SNP sites that are not
+  # perfectly correlated.
+  #
+  #
   #The first line of the haplotype data will be used to calculate the number of segregation sites,
   #otherwise known as the number of SNP sites.
-  FirstLine = readLines(filename)[1]
-  FirstLine=unlist(strsplit(FirstLine,split=""))
-  segsites=length(FirstLine)
+  #FirstLine = readLines(filename)[1]
+  #FirstLine=unlist(strsplit(FirstLine,split=""))
+  #segsites=length(FirstLine)
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  
   
   ## Note that the loci are not separated by spaces. So we must split them in order to be able to manipulate the data. 
   ## Also convert to type numeric so that we can add allele counts
@@ -42,7 +54,7 @@ for (j in (1:2500)){
   #*** If this section was too confusing, I've added a more in-depth explanation in my ReadME file.
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   
-  
+  segsites = ncol(newhaplodat)
   
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   ##The following code can be used to check if our data manipulation above succeeded:
