@@ -9,7 +9,23 @@ rare_causal_list = list()
 
 
 source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Simulation_help.R")
-for (j in (1:2500)){
+
+slurm_arrayid <- Sys.getenv('SLURM_ARRAY_TASK_ID')
+n <- as.numeric(slurm_arrayid)
+#Obtain Slurm Task ID.  
+
+
+#Now, determine indices of data files to analyse:
+total_files=seq(from=1, to= 2501, by=250)
+
+starting = total_files[n]
+#Compute starting index
+
+ending = total_files[n+1] - 1
+#Compute ending index
+
+for (j in (starting:ending)){
+  setwd("/global/home/hpc4300/BIM_Final_Clean_Data")
   
   ## Read in the haplotype data. Must specify that it is type "character". 
   filename = paste("haplodata",j, ".txt", sep="")
@@ -151,6 +167,8 @@ for (j in (1:2500)){
   
   #-----||-----||Save our simulated phenotypes in a file||-----||-----||-----#
   table_name = paste("NoRecomb_PhenoAndGeno", j, ".txt", sep="")
+  
+  setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno2_Data")
   write.table(genodat, table_name, quote=F,row=F,col=F)
   
   

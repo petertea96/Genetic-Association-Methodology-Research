@@ -1,9 +1,18 @@
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
 #These functions are used to simulate the two phenotype models.
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+#This R file is important because...
+#I need a way to choose which SNP site is common causal for simulating phenotype 1
+#And I need to choose which SNP sites will be rare causal for phenotype 2.
+
+
+
 
 get_common_causal = function(UpperBound=0.35, LowerBound=0.25, genodata){
   #This function randomly chooses one SNP site with proper MAF to be the common causal site.
+  #By default, my decision criteria for the common causal site:
+  #Common causal MAF: 0.25 < MAF < 0.35
+  
   
   Minor_Allele_Frequencies = colSums(genodata)/(2*nrow(genodata))
   possible_common_causal_sites = which( (Minor_Allele_Frequencies < UpperBound) & (Minor_Allele_Frequencies > LowerBound ) )
@@ -30,6 +39,8 @@ get_common_causal = function(UpperBound=0.35, LowerBound=0.25, genodata){
 
 get_rare_causals = function(UpperBound=0.05, LowerBound=0, genodata, numsites=10){
   #This function randomly chooses 10 SNP site with proper MAF to be the rare causal sites.
+  #By default, my decision criteria for the rare causal sites:
+  #Rare causal MAF: 0 < MAF < 0.01; Choose the same # of rare causals for ALL simulations.
   
   Minor_Allele_Frequencies = colSums(genodata)/(2*nrow(genodata))
   

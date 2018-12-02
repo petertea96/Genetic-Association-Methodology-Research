@@ -72,7 +72,7 @@ source("BIM_RCode_SLT.R")
 #-----||-----||-----||-----||-----||Array Job Code:||-----||-----||-----||-----||-----||-----#
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
 #I set an aray job with 10 "arrays". I will split up the files to analyse into 10 chunks:
-#There are 2500 files in total to potentially analyse, so I split this into 11 chunks with
+#There are 2500 files in total to potentially analyse, so I split this into 10 chunks with
 #250 files belonging to each chunk.
 
 slurm_arrayid <- Sys.getenv('SLURM_ARRAY_TASK_ID')
