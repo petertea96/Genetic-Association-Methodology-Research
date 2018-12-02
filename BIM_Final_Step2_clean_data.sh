@@ -7,16 +7,20 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=0-9:0:0  
+#SBATCH --time=0-9:0:0  #0 days 2 hours
 #SBATCH --mem=8GB
 # commands for your job go here
 #load-sse3
 
 #This is the second script to run.
-#We take our raw data in the BIM_Final_Raw_Data directory, clean it,
-#and save our clean data in the BIM_Final_Clean_Data directory.
+#First we reformat the data. Then, we simulate phenotype data given the 
+#genetic data we simulated from the previous script.
 module load r
 
-Rscript /global/home/hpc4300/BIM_Final_RCodes/BIM_Final_step2_prelim_codes.R
+#Rscript /global/home/hpc4300/BIM_Final_RCodes/BIM_Final_step1_prelim_codes.R
+
+
+Rscript /global/home/hpc4300/BIM_Final_RCodes/BIM_Final_step2_subsetdata_Prepare_Dataset.R
+
 
 echo "End of program at 'date'"
