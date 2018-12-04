@@ -11,11 +11,11 @@ require("MDMR")
 #Source some R codes needed to calculate the kernels...
 
 
-source("BIM_Rcode_treesimilarityMODIFIED.R") # Calculate distance matrices
-source("BIM_Rcode_SKAT_Linear.R") #SKAT package
-source("BIM_Rcode_Function.R") # From SKAT package
-source("BIM_Rcode_ORDER.R") # Order the matrix from 1 - 200.
-source("BIM_Rcode_Solution_function.R") #Get the max. distance for each individual.
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_treesimilarityMODIFIED.R") # Calculate distance matrices
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_SKAT_Linear.R") #SKAT package
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Function.R") # From SKAT package
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_ORDER.R") # Order the matrix from 1 - 200.
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Solution_function.R") #Get the max. distance for each individual.
 
 
 get.kernels = function(G, P1, P2, n, K, treename){

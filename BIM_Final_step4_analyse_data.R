@@ -62,10 +62,10 @@ P1_pval_list=list()
 P2_pval_list=list()
 
 
-source("BIM_Rcode_Calculate_all_kernels.R")
-source("BIM_Rcode_NEW_gtsm.R")
-source("BIM_Rcode_MDMR_Code.R")
-source("BIM_RCode_SLT.R")
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Calculate_all_kernels.R")
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_RCode_NEW_gtsm.R")
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_MDMR_Code.R")
+source("/global/home/hpc4300/BIM_Final_RCodes/BIM_RCode_SLT.R")
 
 
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
@@ -76,17 +76,17 @@ source("BIM_RCode_SLT.R")
 #250 files belonging to each chunk.
 
 slurm_arrayid <- Sys.getenv('SLURM_ARRAY_TASK_ID')
-n <- as.numeric(slurm_arrayid)
+task_id <- as.numeric(slurm_arrayid)
 #Obtain Slurm Task ID.  
 
 
 #Now, determine indices of data files to analyse:
 total_files=seq(from=1, to= 2501, by=250)
 
-starting = total_files[n]
+starting = total_files[task_id]
   #Compute starting index
 
-ending = total_files[n+1] - 1
+ending = total_files[task_id + 1] - 1
   #Compute ending index
 
 for (index in (starting:ending)){
@@ -99,6 +99,8 @@ for (index in (starting:ending)){
   
   table_name = paste("NoRecomb_PhenoAndGeno", index, ".txt", sep="")
   
+setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno2_Data/")
+
   if(!file.exists(table_name)){
     print(table_name)
     next
@@ -124,10 +126,11 @@ for (index in (starting:ending)){
   
   treename = paste("treedata",index, ".txt", sep="")
   
+setwd("/global/home/hpc4300/BIM_Final_Clean_Data/")
   mykernels = get.kernels(G=G, P1=P1, P2=P2, n=n, K=K, treename=treename)  
   #Calculate all kernel functions.
   
-  
+ 
   #-----||-----||-----|| - ********************  - ||-----||-----||-----#
   #-----||-----||-----|| - Phenotype 1 Analysis - ||-----||-----||-----#
   #-----||-----||-----|| - ********************  - ||-----||-----||-----#
@@ -137,14 +140,14 @@ for (index in (starting:ending)){
   null.model1 = SKAT_Null_Model(P1 ~ 1, out_type="C")
   #Fit the null model
   
-  p.val.pheno1.SKAT=list()
+  p.val.pheno1.SKAT=vector("list", length(mykernels))
   #Initialize list of SKAT p-values
   
-  for (j in mykernels){
+  for (j in 1:length(mykernels)){
     #Fill in list of SKAT p-values
-    p.val.pheno1.SKAT= c(p.val.pheno1.SKAT, tryCatch(SKAT(Z=as.matrix(G), obj=null.model1, kernel = j)$p.value),
-                         error = function(e) paste("NA"))
-    
+    p.val.pheno1.SKAT[[j]]= tryCatch(SKAT(Z=as.matrix(G), obj=null.model1, kernel = mykernels[[j]])$p.value,
+                                   error = function(e) 
+                                     paste("NA"))    
     #-----||-----||-----|| - What is tryCatch()?  - ||-----||-----||-----#
     #tryCatch() is implemented because in some datasets, we get an error.
     #Essentially, some product kernels seem to not produce any positive eigenvalues
@@ -153,7 +156,6 @@ for (index in (starting:ending)){
     #disrupting the code.
     #-----||-----||-----|| - What is tryCatch()?  - ||-----||-----||-----#
   }
-  
   for (j in (1:(length(p.val.pheno1.SKAT)))){
     #Add SKAT p-values to our results table.
     Phenotype1_Results_SKAT[index,j+2] = p.val.pheno1.SKAT[[j]]
@@ -199,12 +201,13 @@ for (index in (starting:ending)){
   
   #-----||-----||-----||-----|| - SKAT - ||-----||-----||-----||-----#
   null.model2 = SKAT_Null_Model(P2 ~ 1, out_type="C")
-  p.val.pheno2.SKAT=list()
+  p.val.pheno2.SKAT=vector("list", length(mykernels))
+
   
-  for (i in mykernels){
-    p.val.pheno2.SKAT = c(p.val.pheno2.SKAT, tryCatch(SKAT(Z=as.matrix(G), obj=null.model2, kernel = i)$p.value),
-                          error = function(e) paste("NA"))
-  }
+  for (j in 1:length(mykernels)){
+    p.val.pheno2.SKAT[[j]]= tryCatch(SKAT(Z=as.matrix(G), obj=null.model2, kernel = mykernels[[j]])$p.value,
+                                   error = function(e) 
+                                     paste("NA"))   }
   
   
   for (j in (1:(length(p.val.pheno1.SKAT)))){
@@ -237,14 +240,31 @@ for (index in (starting:ending)){
   
 }
 
+setwd("/global/home/hpc4300/BIM_Final_Results/")
+
 Pheno1Results = rbind(Phenotype1_Results_SKAT, Phenotype1_Results_Reg, Phenotype1_Results_MDMR)
+Pheno1Results = Pheno1Results[rowSums(is.na(Pheno1Results)) != ncol(Pheno1Results), ]
+
 Pheno2Results = rbind(Phenotype2_Results_SKAT, Phenotype2_Results_Reg, Phenotype2_Results_MDMR)
-write.table(Pheno1Results,"Pheno1Results.txt",quote=F,row=F,col=F)
-write.table(Pheno2Results,"Pheno2Results.txt",quote=F,row=F,col=F)
+Pheno1Results = Pheno2Results[rowSums(is.na(Pheno2Results)) != ncol(Pheno2Results), ]
+
+P1_results_name = paste("Pheno1Results_", task_id, ".txt", sep="")
+P2_results_name = paste("Pheno2Results_", task_id, ".txt", sep="")
+
+write.table(Pheno1Results,P1_results_name,quote=F,row=F,col=F)
+write.table(Pheno2Results,P2_results_name,quote=F,row=F,col=F)
 
 
-write.table(Phenotype1_Results_SLT,"Pheno1Results_SLT.txt",quote=F,row=F,col=F)
-write.table(Phenotype2_Results_SLT,"Pheno2Results_SLT.txt",quote=F,row=F,col=F)
+
+
+Phenotype1_Results_SLT = Phenotype1_Results_SLT[rowSums(is.na(Phenotype1_Results_SLT)) != ncol(Phenotype1_Results_SLT), ]
+Phenotype2_Results_SLT = Phenotype2_Results_SLT[rowSums(is.na(Phenotype2_Results_SLT)) != ncol(Phenotype2_Results_SLT), ]
+
+
+P1_SLT = paste("Pheno1Results_", task_id, "_SLT.txt", sep="")
+P2_SLT = paste("Pheno2Results_", task_id, "_SLT.txt", sep="")
+write.table(Phenotype1_Results_SLT,P1_SLT,quote=F,row=F,col=F)
+write.table(Phenotype2_Results_SLT,P2_SLT,quote=F,row=F,col=F)
 
 
 write.table(Chosen_common_causal, "Chosen_common_causal.txt", quote = F, row=F, col=F)

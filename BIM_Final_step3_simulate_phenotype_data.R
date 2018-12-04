@@ -11,17 +11,17 @@ rare_causal_list = list()
 source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Simulation_help.R")
 
 slurm_arrayid <- Sys.getenv('SLURM_ARRAY_TASK_ID')
-n <- as.numeric(slurm_arrayid)
+task_id <- as.numeric(slurm_arrayid)
 #Obtain Slurm Task ID.  
 
 
 #Now, determine indices of data files to analyse:
 total_files=seq(from=1, to= 2501, by=250)
 
-starting = total_files[n]
+starting = total_files[task_id]
 #Compute starting index
 
-ending = total_files[n+1] - 1
+ending = total_files[task_id +1] - 1
 #Compute ending index
 
 for (j in (starting:ending)){
@@ -48,9 +48,9 @@ for (j in (starting:ending)){
   #
   #The first line of the haplotype data will be used to calculate the number of segregation sites,
   #otherwise known as the number of SNP sites.
-  #FirstLine = readLines(filename)[1]
-  #FirstLine=unlist(strsplit(FirstLine,split=""))
-  #segsites=length(FirstLine)
+  FirstLine = readLines(filename)[1]
+  FirstLine=unlist(strsplit(FirstLine,split=""))
+  segsites=length(FirstLine)
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
@@ -168,21 +168,22 @@ for (j in (starting:ending)){
   #-----||-----||Save our simulated phenotypes in a file||-----||-----||-----#
   table_name = paste("NoRecomb_PhenoAndGeno", j, ".txt", sep="")
   
-  setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno2_Data")
+  setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno_Data")
   write.table(genodat, table_name, quote=F,row=F,col=F)
   
   
 }
 
-
+setwd("/global/home/hpc4300/BIM_Final_SLT_Data")
 #Save our vector and list of causal variants:
-write.table(common_causal_vector, "common_causal_vector.txt", quote = F, row=F, col=F)
+common_causal_name = paste("actual_common_causal_vector_", task_id, ".txt", sep="")
+write.table(common_causal_vector, common_causal_name, quote = F, row=F, col=F)
 
 
 rare_table = matrix(nrow = length(rare_causal_list), ncol=10)
 for (i in 1:length(rare_causal_list)){
   rare_table[i,] = rare_causal_list[[i]]
 }
-
-write.table(rare_table, "rare_causal_table.txt", quote = F, row=F, col=F)
+rare_causal_name = paste("actual_rare_causal_table_", task_id, ".txt", sep="")
+write.table(rare_table, rare_causal_name, quote = F, row=F, col=F)
 
