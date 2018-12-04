@@ -174,9 +174,9 @@ for (j in (starting:ending)){
   
 }
 
-setwd("/global/home/hpc4300/BIM_Final_SLT_Data")
+
 #Save our vector and list of causal variants:
-common_causal_name = paste("actual_common_causal_vector_", task_id, ".txt", sep="")
+common_causal_name = paste("common_causal_vector_", task_id, ".txt", sep="")
 write.table(common_causal_vector, common_causal_name, quote = F, row=F, col=F)
 
 
@@ -184,6 +184,7 @@ rare_table = matrix(nrow = length(rare_causal_list), ncol=10)
 for (i in 1:length(rare_causal_list)){
   rare_table[i,] = rare_causal_list[[i]]
 }
-rare_causal_name = paste("actual_rare_causal_table_", task_id, ".txt", sep="")
+
+rare_causal_name = paste("rare_causal_table_", task_id, ".txt", sep="")
 write.table(rare_table, rare_causal_name, quote = F, row=F, col=F)
 

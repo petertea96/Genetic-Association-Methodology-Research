@@ -11,7 +11,7 @@
 #SBATCH --mem=8GB
 
 
-#This is the fourth script to run. Here, we finally analyse all of our data.
+#This is the third script to run. Here, we finally analyse all of our data.
 module load r
 
 Rscript /global/home/hpc4300/BIM_Final_RCodes/BIM_Final_step4_analyse_data.R $SLURM_ARRAY_TASK_ID

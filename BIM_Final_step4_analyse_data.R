@@ -99,7 +99,7 @@ for (index in (starting:ending)){
   
   table_name = paste("NoRecomb_PhenoAndGeno", index, ".txt", sep="")
   
-setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno2_Data/")
+setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno_Data/")
 
   if(!file.exists(table_name)){
     print(table_name)
@@ -266,6 +266,8 @@ P2_SLT = paste("Pheno2Results_", task_id, "_SLT.txt", sep="")
 write.table(Phenotype1_Results_SLT,P1_SLT,quote=F,row=F,col=F)
 write.table(Phenotype2_Results_SLT,P2_SLT,quote=F,row=F,col=F)
 
+chosen_common_causal_name = paste("Chosen_common_causal_", task_id, ".txt", sep="")
+write.table(Chosen_common_causal, chosen_common_causal_name, quote = F, row=F, col=F)
 
-write.table(Chosen_common_causal, "Chosen_common_causal.txt", quote = F, row=F, col=F)
-write.table(Chosen_rare_causal, "Chosen_rare_causal.txt", quote = F, row=F, col=F)
+chosen_rare_causal_name = paste("Chosen_rare_causal_", task_id, ".txt", sep="")
+write.table(Chosen_rare_causal, chosen_rare_causal_name, quote = F, row=F, col=F)
