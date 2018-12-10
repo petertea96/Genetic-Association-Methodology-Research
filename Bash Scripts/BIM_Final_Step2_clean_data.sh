@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=test1
+#SBATCH --job-name=JOb2
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ptea035@uottawa.ca
 #SBATCH --output=STD.out
@@ -9,8 +9,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --time=0-9:0:0  
 #SBATCH --mem=8GB
-# commands for your job go here
-#load-sse3
+
 
 #This is the second script to run.
 #We take our raw data in the BIM_Final_Raw_Data directory, clean it,

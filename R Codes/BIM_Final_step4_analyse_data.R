@@ -53,15 +53,6 @@ Phenotype2_Results_MDMR = data.frame(Rep. = integer(), Method = character(),IBS 
 
 Phenotype2_Results_SLT = data.frame(Rep. = integer(), Method = character(), Pval = numeric(), stringsAsFactors = FALSE )
 
-
-#As double check, I want to save some results from the SLT code. I save which sites turn out
-#to be the most significant, as well as its corresponding p-value.
-Chosen_common_causal = list()
-Chosen_rare_causal = list()
-P1_pval_list=list()
-P2_pval_list=list()
-
-
 source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Calculate_all_kernels.R")
 source("/global/home/hpc4300/BIM_Final_RCodes/BIM_RCode_NEW_gtsm.R")
 source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_MDMR_Code.R")
@@ -81,7 +72,7 @@ task_id <- as.numeric(slurm_arrayid)
 
 
 #Now, determine indices of data files to analyse:
-total_files=seq(from=1, to= 2501, by=250)
+total_files=seq(from=1, to= 3001, by=30)
 
 starting = total_files[task_id]
   #Compute starting index
@@ -186,11 +177,6 @@ setwd("/global/home/hpc4300/BIM_Final_Clean_Data/")
   Phenotype1_Results_SLT[index,3]=   p.val.pheno1.SLT[[1]]
   #Populate our results table with SLT p-value
   
-  Chosen_common_causal = c(Chosen_common_causal, list(p.val.pheno1.SLT[[2]]) )
-  #Save which common causal variant was the most significant
-  
-  P1_pval_list=c(P1_pval_list, list(p.val.pheno1.SLT[[3]]))
-  #Save its corresponsding pvalue as well.
  
   
   
@@ -232,11 +218,6 @@ setwd("/global/home/hpc4300/BIM_Final_Clean_Data/")
   #-----||-----||-----|| - Single Locus Test  - ||-----||-----||-----#
   p.val.pheno2.SLT = get.min.pval(data=data, phenotype=P2)
   Phenotype2_Results_SLT[index,3]=   p.val.pheno2.SLT[[1]]
-  
-  
-  #-----||-----||-----|| - Sanity Check  - ||-----||-----||-----#
-  Chosen_rare_causal = c(Chosen_rare_causal, list(p.val.pheno2.SLT[[2]]))
-  P2_pval_list=c(P2_pval_list, list(p.val.pheno2.SLT[[3]]))
   
 }
 

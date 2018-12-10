@@ -1,7 +1,4 @@
-#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
-#Simulate the phenotypes, then re-format our data with phenotypes.
-#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
-
+set.seed(5)
 common_causal_vector = vector()
 rare_causal_list = list()
 #For precaution, I will save which SNP sites is the common causal and which ones are
@@ -16,7 +13,7 @@ task_id <- as.numeric(slurm_arrayid)
 
 
 #Now, determine indices of data files to analyse:
-total_files=seq(from=1, to= 3001, by=30)
+total_files=seq(from=1, to= 10001, by=100)
 
 starting = total_files[task_id]
 #Compute starting index
@@ -25,15 +22,15 @@ ending = total_files[task_id +1] - 1
 #Compute ending index
 
 for (j in (starting:ending)){
-  setwd("/global/home/hpc4300/BIM_Final_Clean_Data")
+  setwd("/global/home/hpc4300/Pilot_Study/Pilot_Study_Clean_Data")
   
   ## Read in the haplotype data. Must specify that it is type "character". 
   filename = paste("haplodata",j, ".txt", sep="")
   
   if (!file.exists(filename)){
     next
-  #This is just an added sanity check. To proceed, we need to ensure the file actually exists...
-    }
+    #This is just an added sanity check. To proceed, we need to ensure the file actually exists...
+  }
   
   
   haplodat=read.table(filename, colClasses=c("character"))
@@ -60,19 +57,7 @@ for (j in (starting:ending)){
   ## Also convert to type numeric so that we can add allele counts
   newhaplodat=matrix(as.numeric(unlist(strsplit(haplodat[,1],split=""))),ncol=segsites,byrow=T)
   
-  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
-  #What if columns are the exact same? (I.E 100% correlated between SNPs?) Let's remove them.
   
-  newhaplodat = unique.matrix(t(newhaplodat)) 
-  #Returns a matrix with only unique ROWS (so I need the transpose)
-  
-  newhaplodat = t(newhaplodat)
-  #*** If this section was too confusing, I've added a more in-depth explanation in my ReadME file.
-  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
-  
-  segsites = ncol(newhaplodat)
-  
-  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   ##The following code can be used to check if our data manipulation above succeeded:
   #haplodat[24,]
   #newhaplodat[24,]
@@ -111,6 +96,21 @@ for (j in (starting:ending)){
   
   
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  #What if columns are the exact same? (I.E 100% correlated between SNPs?) Let's remove them.
+  
+  genodat = unique.matrix(t(genodat)) 
+  #Returns a matrix with only unique ROWS (so I need the transpose)
+  
+  genodat = t(genodat)
+  #*** If this section was too confusing, I've added a more in-depth explanation in my ReadME file.
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  
+  segsites = ncol(genodat)
+  
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  
+  
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   ##Again, we can use the following code to check if our data manipulation above succeeded:
   #i=99
   #newhaplodat[(2*i-1):(2*i),]
@@ -127,7 +127,7 @@ for (j in (starting:ending)){
   common.causal=get_common_causal(genodata=genodat)
   #Obtain a random common causal site (we can cange the bounds of the MAF. It is 
   #automatically set at (0.25, 0.35)).
-
+  
   if(is.null(common.causal)){
     file.remove(filename)
     next
@@ -135,10 +135,7 @@ for (j in (starting:ending)){
     #then we just skip to next iteration.
   }
   
-  common_causal_vector=c(common_causal_vector, common.causal)
-  #I'm just saving a vector containing all causal variants for each data.
-  
-  
+
   
   #-----||-----||-----||-----||Simulate Phenotype 2||-----||-----||-----||-----||-----#
   rare.causal=get_rare_causals(genodata=genodat)
@@ -149,6 +146,10 @@ for (j in (starting:ending)){
     next
   }
   
+  
+  common_causal_vector=c(common_causal_vector, common.causal)
+  #I'm just saving a vector containing all causal variants for each data.
+  
   rare_causal_list=c(rare_causal_list, list(rare.causal))
   #I'm saving a list of the chosen rare causal variants for each dataset.
   
@@ -158,17 +159,26 @@ for (j in (starting:ending)){
   
   
   ##Now, we simulate the data.
-  y1 = sim_pheno1(beta=0.45, common.causal = common.causal)
-  y2 = sim_pheno2(beta =0.8, rare.causal = hascausal )
+  Beta = seq(from=0.25, to = 1, by = 0.05)
   
-  genodat=data.frame(y1,y2,genodat)
-  colnames(genodat)=c("Pheno1","Pheno2",paste("V",1:segsites,sep=""))
-
+  phen1=vector()
+  phen2=vector()
+  for(g in 1:length(Beta)){
+    y1 = sim_pheno1(beta=Beta[g], common.causal = common.causal)
+    y2 = sim_pheno2(beta =Beta[g], rare.causal = hascausal )
+    
+    phen1 = cbind(phen1, y1)
+    phen2 = cbind(phen2, y2)
+  }
+  
+  genodat=data.frame(phen1,phen2,genodat)
+  #colnames(genodat)=c(rep(paste("Pheno", 1:16)),paste("V",1:segsites,sep=""))
+  
   
   #-----||-----||Save our simulated phenotypes in a file||-----||-----||-----#
   table_name = paste("NoRecomb_PhenoAndGeno", j, ".txt", sep="")
   
-  setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno_Data")
+  setwd("/global/home/hpc4300/Pilot_Study/Pilot_Study_PhenoAndGeno_Data")
   write.table(genodat, table_name, quote=F,row=F,col=F)
   
   
@@ -176,7 +186,8 @@ for (j in (starting:ending)){
 
 
 #Save our vector and list of causal variants:
-common_causal_name = paste("common_causal_vector_", task_id, ".txt", sep="")
+setwd("/global/home/hpc4300/Pilot_Study/Pilot_Study_Results")
+common_causal_name = paste("Actual_common_causal_vector_", task_id, ".txt", sep="")
 write.table(common_causal_vector, common_causal_name, quote = F, row=F, col=F)
 
 
@@ -185,6 +196,6 @@ for (i in 1:length(rare_causal_list)){
   rare_table[i,] = rare_causal_list[[i]]
 }
 
-rare_causal_name = paste("rare_causal_table_", task_id, ".txt", sep="")
+rare_causal_name = paste("Actual_rare_causal_table_", task_id, ".txt", sep="")
 write.table(rare_table, rare_causal_name, quote = F, row=F, col=F)
 

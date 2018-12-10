@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=Job4
+#SBATCH --job-name=PilotStudy4
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ptea035@uottawa.ca
 #SBATCH --output=arrayJob_%A_%a.out
@@ -14,4 +14,4 @@
 #This is the fourth script to run. Here, we finally analyse all of our data.
 module load r
 
-Rscript /global/home/hpc4300/BIM_Final_RCodes/BIM_Final_step4_analyse_data.R $SLURM_ARRAY_TASK_ID
+Rscript /global/home/hpc4300/Pilot_Study/Pilot_Study_RCode/Pilot_Study_Part4.R $SLURM_ARRAY_TASK_ID

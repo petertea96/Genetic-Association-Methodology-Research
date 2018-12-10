@@ -11,8 +11,11 @@ get.min.pval = function(data, phenotype){
     Pval.list[i] = p.val
   }
   which_SNP = which(Pval.list==min(Pval.list))
+  if(length(which_SNP) > 1){
+    print("WARNING, multiple SNP sites with the minimum p-value")
+  }
   corrected_pvalue = number.sites*min(Pval.list)
-  myresult = list(corrected_pvalue, which_SNP, Pval.list)
+  myresult = list(corrected_pvalue, which_SNP[1], Pval.list)
   return(myresult) #Return correction factor
   
 }

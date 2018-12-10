@@ -1,6 +1,6 @@
 #Takes the ms text results and extracts the gene tree data and the haplotype data into two separate files.
 
-for (i in 1:2500){
+for (i in 1:3000){
   setwd("/global/home/hpc4300/BIM_Final_Raw_Data")
   title = paste("results",i,".txt", sep="")
   data=readLines(title)
