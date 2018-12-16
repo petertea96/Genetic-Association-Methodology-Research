@@ -1,3 +1,5 @@
+#This R script was taken directly from the SKAT package. It contains function needed
+# to calculate the SKAT kernel matrix...
 
 #
 # Get Parameter for the Liu et. al 

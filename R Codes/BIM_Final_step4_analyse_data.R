@@ -1,5 +1,11 @@
 .libPaths("/global/home/hpc4300/RPackages")
 
+#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+#-----||-----||-----||-----||-----|| Step 4 - Analyse our data||-----||-----||-----||-----#
+#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+
+
+
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
 #-----||-----||-----||Initialize Phenotype 1 data analysis results:||-----||-----||-----||-----#
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
@@ -62,9 +68,9 @@ source("/global/home/hpc4300/BIM_Final_RCodes/BIM_RCode_SLT.R")
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
 #-----||-----||-----||-----||-----||Array Job Code:||-----||-----||-----||-----||-----||-----#
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
-#I set an aray job with 10 "arrays". I will split up the files to analyse into 10 chunks:
-#There are 2500 files in total to potentially analyse, so I split this into 10 chunks with
-#250 files belonging to each chunk.
+#I set an aray job with 100 "arrays". I will split up the files to analyse into 10 chunks:
+#There are 3000 files in total to potentially analyse, so I split this into 100 chunks with
+#30 files belonging to each chunk.
 
 slurm_arrayid <- Sys.getenv('SLURM_ARRAY_TASK_ID')
 task_id <- as.numeric(slurm_arrayid)
@@ -88,10 +94,14 @@ for (index in (starting:ending)){
   Phenotype1_Results_MDMR[index,2] = Phenotype2_Results_MDMR[index,2] = "MDMR"
   Phenotype1_Results_SLT[index,2] = Phenotype2_Results_SLT[index,2] = "SLT"
   
-  table_name = paste("NoRecomb_PhenoAndGeno", index, ".txt", sep="")
   
-setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno_Data/")
+  
+  table_name = paste("NoRecomb_PhenoAndGeno", index, ".txt", sep="")
+  setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno_Data/")
 
+  #--> Check to see if file exists. Note in a previous step, I delete files that are not "useable".
+  # I.E. files that do not contain appropriate common causal or enough rare causal sites to
+  # simulate the phenotype models.
   if(!file.exists(table_name)){
     print(table_name)
     next
@@ -117,7 +127,9 @@ setwd("/global/home/hpc4300/BIM_Final_PhenoAndGeno_Data/")
   
   treename = paste("treedata",index, ".txt", sep="")
   
-setwd("/global/home/hpc4300/BIM_Final_Clean_Data/")
+  setwd("/global/home/hpc4300/BIM_Final_Clean_Data/")
+  #Tree data is saved in this directory...
+  
   mykernels = get.kernels(G=G, P1=P1, P2=P2, n=n, K=K, treename=treename)  
   #Calculate all kernel functions.
   
@@ -140,13 +152,14 @@ setwd("/global/home/hpc4300/BIM_Final_Clean_Data/")
                                    error = function(e) 
                                      paste("NA"))    
     #-----||-----||-----|| - What is tryCatch()?  - ||-----||-----||-----#
-    #tryCatch() is implemented because in some datasets, we get an error.
-    #Essentially, some product kernels seem to not produce any positive eigenvalues
-    # and we can't compute p-values. This only happens a small maount of times.
-    #With the tryCatch(), if this error occurs we assign an NA value and just move on without
+    #--> tryCatch() is implemented because in some datasets, we get an error.
+    #--> Essentially, some product kernels seem to not produce any positive eigenvalues
+    # and we can't compute p-values. This only happens a small amount of times.
+    #--> With the tryCatch(), if this error occurs we assign an NA value and just move on without
     #disrupting the code.
     #-----||-----||-----|| - What is tryCatch()?  - ||-----||-----||-----#
   }
+  
   for (j in (1:(length(p.val.pheno1.SKAT)))){
     #Add SKAT p-values to our results table.
     Phenotype1_Results_SKAT[index,j+2] = p.val.pheno1.SKAT[[j]]
@@ -225,6 +238,8 @@ setwd("/global/home/hpc4300/BIM_Final_Results/")
 
 Pheno1Results = rbind(Phenotype1_Results_SKAT, Phenotype1_Results_Reg, Phenotype1_Results_MDMR)
 Pheno1Results = Pheno1Results[rowSums(is.na(Pheno1Results)) != ncol(Pheno1Results), ]
+#By nature of my code, some rows will be filled entirely by NA values...We don't want this.
+
 
 Pheno2Results = rbind(Phenotype2_Results_SKAT, Phenotype2_Results_Reg, Phenotype2_Results_MDMR)
 Pheno1Results = Pheno2Results[rowSums(is.na(Pheno2Results)) != ncol(Pheno2Results), ]
@@ -247,8 +262,3 @@ P2_SLT = paste("Pheno2Results_", task_id, "_SLT.txt", sep="")
 write.table(Phenotype1_Results_SLT,P1_SLT,quote=F,row=F,col=F)
 write.table(Phenotype2_Results_SLT,P2_SLT,quote=F,row=F,col=F)
 
-chosen_common_causal_name = paste("Chosen_common_causal_", task_id, ".txt", sep="")
-write.table(Chosen_common_causal, chosen_common_causal_name, quote = F, row=F, col=F)
-
-chosen_rare_causal_name = paste("Chosen_rare_causal_", task_id, ".txt", sep="")
-write.table(Chosen_rare_causal, chosen_rare_causal_name, quote = F, row=F, col=F)

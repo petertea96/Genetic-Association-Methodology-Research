@@ -1,4 +1,5 @@
-####Peter's attempt at forming GTSR model:
+####Peter's attempt at forming GTSR model. Most of this work was completed by Zhe with just
+# a couple of minor tweaks completed by yours truly.
 
 
 .libPaths("/global/home/hpc4300/RPackages")

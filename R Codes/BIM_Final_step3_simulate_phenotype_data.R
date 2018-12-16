@@ -1,14 +1,28 @@
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
-#Simulate the phenotypes, then re-format our data with phenotypes.
+#-----||-----||-----||Step 3 - RCode simulate phenotype models||-----||-----||-----||-----#
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
 
-common_causal_vector = vector()
-rare_causal_list = list()
-#For precaution, I will save which SNP sites is the common causal and which ones are
-#rare causal. This will be compared to when I run the Single Locus Tests.
 
+#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+#-----||-----|| Goal: Simulate two continuous phenotypes based on our||-----||-----||-----#
+#-----||-----||genetic data. Then, re-format our data with phenotypes||-----||-----||-----#
+#-----||-----||That is, create data frames where the first 2 columns ||-----||-----||-----#
+#-----||-----||are the phenotypes, and the remaining columns are the ||-----||-----||-----#
+#-----||-----||SNP sites where entries correspond to number of Minor ||-----||-----||-----#
+#-----||-----|| alleles at the SNP site.                             ||-----||-----||-----#
+#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+#-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
 
 source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Simulation_help.R")
+
+
+#  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
+#-----||-----||-----||-----||-----||Array Job Code:||-----||-----||-----||-----||-----||-----#
+#  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
+#I set an aray job with 100 "arrays". I will split up the files to analyse into 10 chunks:
+#There are 3000 files in total to potentially analyse, so I split this into 100 chunks with
+#30 files belonging to each chunk.
 
 slurm_arrayid <- Sys.getenv('SLURM_ARRAY_TASK_ID')
 task_id <- as.numeric(slurm_arrayid)
@@ -27,7 +41,7 @@ ending = total_files[task_id +1] - 1
 for (j in (starting:ending)){
   setwd("/global/home/hpc4300/BIM_Final_Clean_Data")
   
-  ## Read in the haplotype data. Must specify that it is type "character". 
+  ## STEP 1: Read in the haplotype data. Must specify that it is type "character". 
   filename = paste("haplodata",j, ".txt", sep="")
   
   if (!file.exists(filename)){
@@ -48,6 +62,8 @@ for (j in (starting:ending)){
   #
   #The first line of the haplotype data will be used to calculate the number of segregation sites,
   #otherwise known as the number of SNP sites.
+  #UPDATE: We actually need the following code. The variable segsites will be given a new value
+  # soon... 12/15/18
   FirstLine = readLines(filename)[1]
   FirstLine=unlist(strsplit(FirstLine,split=""))
   segsites=length(FirstLine)
@@ -81,6 +97,10 @@ for (j in (starting:ending)){
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   
   
+  
+  
+  #STEP 2: Make sure our data is in terms of the Minor Allele.
+  
   ## Get allele frequencies
   f1=colSums(newhaplodat)/nrow(newhaplodat)
   
@@ -91,7 +111,7 @@ for (j in (starting:ending)){
   
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   #***I ADDED THE FOLLOWING IF STATEMENT IN CASE tochange RETURNS logical(0)
-  #I.E. We do not need to change our data format if it already in terms of the MAF...
+  #I.E. We do not need to change our data format if it is already in terms of the MAF...
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   if (length(tochange) !=0){
     for (i in 1:length(tochange)){
@@ -102,8 +122,13 @@ for (j in (starting:ending)){
   
   
   
-  ## Now create genotype dataset. This is done by pairing consecutive rows
+  ## STEP3: Create genotype dataset. This is done by pairing consecutive rows
+  # Ex: Individual 1's genotype will be comprised of haplotypes from row 1 and 2 from our data.
+  #Individual 2's genotype will be calculated from haplotypes from row 3 and 4. etc...
+  
+  
   genodat=matrix(nrow=nrow(haplodat)/2,ncol=ncol(newhaplodat))
+  #initializing step...
   
   for (i in 1:nrow(genodat)){
     genodat[i,]=newhaplodat[2*i-1,]+newhaplodat[2*i,]
@@ -119,14 +144,14 @@ for (j in (starting:ending)){
   
   
   
-  ## Simulate some continuous phenotype data. Both models chosen so that power
-  ## Assume that minor allele of causal increases phenotype mean by ___SD
+  ## STEP 4: Simulate some continuous phenotype data. Both models chosen so that power is ____
+  ## Assume that minor allele of causal increases phenotype mean by ____
   
   
-  #-----||-----||-----||-----||Simulate Phenotype 1||-----||-----||-----||-----||-----#
+  #-----||-----||-----||-----||Phenotype 1 causal site||-----||-----||-----||-----||-----#
   common.causal=get_common_causal(genodata=genodat)
   #Obtain a random common causal site (we can cange the bounds of the MAF. It is 
-  #automatically set at (0.25, 0.35)).
+  #by default set at (0.25, 0.35)).
 
   if(is.null(common.causal)){
     file.remove(filename)
@@ -135,12 +160,9 @@ for (j in (starting:ending)){
     #then we just skip to next iteration.
   }
   
-  common_causal_vector=c(common_causal_vector, common.causal)
-  #I'm just saving a vector containing all causal variants for each data.
   
   
-  
-  #-----||-----||-----||-----||Simulate Phenotype 2||-----||-----||-----||-----||-----#
+  #-----||-----||-----||-----||Phenotype 2 causal sites||-----||-----||-----||-----||-----#
   rare.causal=get_rare_causals(genodata=genodat)
   #Obtain 10 random sites to act as the rare causal sites.
   
@@ -149,9 +171,7 @@ for (j in (starting:ending)){
     next
   }
   
-  rare_causal_list=c(rare_causal_list, list(rare.causal))
-  #I'm saving a list of the chosen rare causal variants for each dataset.
-  
+
   hascausal=rowSums(genodat[,rare.causal])
   #This computes marginal counts of rare causal variants each individual has.
   
@@ -174,17 +194,4 @@ for (j in (starting:ending)){
   
 }
 
-
-#Save our vector and list of causal variants:
-common_causal_name = paste("common_causal_vector_", task_id, ".txt", sep="")
-write.table(common_causal_vector, common_causal_name, quote = F, row=F, col=F)
-
-
-rare_table = matrix(nrow = length(rare_causal_list), ncol=10)
-for (i in 1:length(rare_causal_list)){
-  rare_table[i,] = rare_causal_list[[i]]
-}
-
-rare_causal_name = paste("rare_causal_table_", task_id, ".txt", sep="")
-write.table(rare_table, rare_causal_name, quote = F, row=F, col=F)
 

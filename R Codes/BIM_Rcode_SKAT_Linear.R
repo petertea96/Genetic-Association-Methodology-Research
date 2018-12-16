@@ -1,3 +1,5 @@
+#This R script was taken directly from the SKAT package. It contains function needed
+# to calculate the SKAT kernel matrix...
 
 SKAT.linear.Linear = function(res,Z,X1, kernel, weights = NULL, s2, method,res.out,n.Resampling,r.corr, IsMeta=FALSE){
 	

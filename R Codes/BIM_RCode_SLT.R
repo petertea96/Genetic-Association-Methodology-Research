@@ -1,3 +1,10 @@
+#####This R script allows us to calculate the SLT (test). Assuming we have a continuous 
+# phenotype, we run an ANOVA such that: phenotype ~ SNP site. We calculate the pvalue
+#for each SNP site and choose the minimum p-value. Then to account for multiple corrections,
+# we multiply the minimum p-value by the number of comparisons made (so the total number
+# of SNP sites). The code below can also return the SNP site that was the most statistically
+#significant (used in my Pilot study analysis).
+
 get.min.pval = function(data, phenotype){
   #Function computes all association tests for all SNP sites, and then outputs
   #the maximum of these association tests.
