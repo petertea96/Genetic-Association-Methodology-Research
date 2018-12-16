@@ -12,7 +12,7 @@ Final Results | Contains aggregated results files.
 
 ### Bash Scripts Directory
 
-*Pilot_Study_Step1.sh
+* Pilot_Study_Step1.sh
   * Uses the *ms* program to simulate haplotype and gene tree data. There were 10 000 iterations (not all files will be useable though).
 
 *Pilot_Study_Step2.sh
