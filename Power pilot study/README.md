@@ -13,6 +13,8 @@ Final Results | Contains aggregated results files.
 ### Bash Scripts Directory
 
 1. Pilot_Study_Step1.sh
+* Uses the *ms* program to simulate haplotype and gene tree data
+
 2. Pilot_Study_Step2.sh
 3. Pilot_Study_Step3.sh
 4. Pilot_Study_Step4.sh
