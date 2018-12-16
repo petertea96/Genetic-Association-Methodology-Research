@@ -12,20 +12,20 @@ Final Results | Contains aggregated results files.
 
 ### Bash Scripts Directory
 
-1. Pilot_Study_Step1.sh
-* Uses the *ms* program to simulate haplotype and gene tree data. There were 10 000 iterations (not all files will be useable though).
+*Pilot_Study_Step1.sh
+  * Uses the *ms* program to simulate haplotype and gene tree data. There were 10 000 iterations (not all files will be useable though).
 
-2. Pilot_Study_Step2.sh
-* This sends an Array Job. We take our raw data in the Pilot_Study_Raw_Data directory, clean it, and then save our clean data in the Pilot_Study_Clean_Data directory.
+*Pilot_Study_Step2.sh
+  * This sends an Array Job. We take our raw data in the Pilot_Study_Raw_Data directory, clean it, and then save our clean data in the Pilot_Study_Clean_Data directory.
 
 
-3. Pilot_Study_Step3.sh
-* This also is an Array Job. We simulate different phenotype data given the genetic data we simulated from the previous script. The phenotype data simulated will be based on beta values ranging from 0.3 to 1, incremented by 0.05. We wish to study the effects of these beta values on power.
+*Pilot_Study_Step3.sh
+  * This also is an Array Job. We simulate different phenotype data given the genetic data we simulated from the previous script. The phenotype data simulated will be based on beta values ranging from 0.3 to 1, incremented by 0.05. We wish to study the effects of these beta values on power.
 
-4. Pilot_Study_Step4.sh
-* This is another Array job. Here, we finally analyse all of our data. That is, we determine the proportion of SLT tests that were statistically significant at the level of 5%. We do this across all phenotype models under each beta value.
+*Pilot_Study_Step4.sh
+  * This is another Array job. Here, we finally analyse all of our data. That is, we determine the proportion of SLT tests that were statistically significant at the level of 5%. We do this across all phenotype models under each beta value.
 
-5. Pilot_Study_Step5.sh
-* Since we use Array jobs, all of our results are saved in many different files! We concatenate all of our results files into a single file. 
+*Pilot_Study_Step5.sh
+  ** Since we use Array jobs, all of our results are saved in many different files! We concatenate all of our results files into a single file. 
 
 
