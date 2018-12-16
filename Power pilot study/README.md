@@ -8,3 +8,15 @@ Directory | Description
 Bash Scripts | Contains all BASH shell scripts used to submit jobs to Frontenac. All scripts are broken down into 5 distinct steps
 R Scripts | Contains all R scripts used in this experiment
 Final Results | Contains aggregated results files.
+
+
+### Bash Scripts Directory
+
+1. Pilot_Study_Step1.sh
+2. Pilot_Study_Step2.sh
+3. Pilot_Study_Step3.sh
+4. Pilot_Study_Step4.sh
+5. Pilot_Study_Step5.sh
+
+
+
