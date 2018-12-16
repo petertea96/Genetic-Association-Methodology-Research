@@ -14,6 +14,8 @@ Final Results | Contains aggregated results files.
 
 * __Pilot_Study_Step1.sh__
   * Uses the *ms* program to simulate haplotype and gene tree data. There were 10 000 iterations (not all files will be useable though).
+  * The raw results from the _ms_ program are saved in the format of results{i}.txt where i = 1, …, 10 000. The raw data will be saved in the directory “Pilot_Study_Raw_Data”.
+
 
 * __Pilot_Study_Step2.sh__
   * This sends an Array Job. We take our raw data in the Pilot_Study_Raw_Data directory, clean it, and then save our clean data in the Pilot_Study_Clean_Data directory.
