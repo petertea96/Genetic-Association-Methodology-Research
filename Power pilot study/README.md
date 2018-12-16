@@ -21,7 +21,10 @@ Final Results | Contains aggregated results files.
 
 
 * __Pilot_Study_Step2.sh__
-  * This sends an Array Job. We take our raw data in the Pilot_Study_Raw_Data directory, clean it, and then save our clean data in the Pilot_Study_Clean_Data directory.
+  * This sends an Array Job.
+  * This bash script calls the Pilot_Study_Step2.R R script. This R script takes the raw ms data output and cleans it to produce one set of .txt files containing the haplotype data (haplodata{ i }.txt) and another set of .txt containing the tree data (treedata{ i }.txt).
+  * These cleaned datasets will be saved in the Pilot_Study_Clean_Data directory.
+  * FYI This took 8 minutes to complete.
 
 
 * __Pilot_Study_Step3.sh__
