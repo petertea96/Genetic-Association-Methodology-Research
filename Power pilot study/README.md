@@ -6,4 +6,5 @@ This is the readme file for for all experiments ran for the Pilot Study of my pr
 Directory | Description
 --------- | ---------
 Bash Scripts | Contains all BASH shell scripts used to submit jobs to Frontenac. All scripts are broken down into 5 distinct steps
+R Scripts | Contains all R scripts used in this experiment
 Final Results | Contains aggregated results files.
