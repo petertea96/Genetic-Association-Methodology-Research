@@ -17,6 +17,17 @@ Final Results | Contains aggregated results files.
 PSD Error files | Contains files (from a previous pilot study), that contains data files that have issues with PSD.
 
 
+## BASH Scripts Directory
+
+File name | Description
+--------- | ---------
+BIM_Final_Step1_get_data.sh | ...
+BIM_Final_Step2_clean_data.sh	 | ...
+BIM_Final_step4_analyse_data.R | ...
+BIM_Final_Step3_simulate_phenotype_data.sh | ...
+BIM_Final_Step4_analyse_data.sh | ...
+
+
 ## R Scripts Directory
 
 File name | Description
