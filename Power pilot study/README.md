@@ -55,9 +55,9 @@ Final Results | Contains aggregated results files.
 
 File name | Description
 --------- | ---------
-Aggregate_Actual_common_causal_vector.txt | Contains all BASH shell scripts used to submit jobs to Frontenac. All scripts are broken down into 5 distinct steps
-Aggregate_Actual_rare_causal_table.txt | Contains all R scripts used in this experiment
-Aggregate_Chosen_common_causal.txt | Contains aggregated results files.
-Aggregate_Chosen_rare_causal.txt | ...
-Aggregate_Pheno1Results.txt | ...
-Aggregate_Pheno2Results.txt | ...
+Aggregate_Actual_common_causal_vector.txt | Each line gives the SNP site that was chosen to be the common causal variant, for each dataset used. This site was chosen such that individuals containing a minor allele at this site had an increased simulated phenotype (phenotype 1). 
+Aggregate_Actual_rare_causal_table.txt | Each line gives the 10 SNP sites that were chosen to be the rare causal variants, for each dataset used. This site was chosen such that individuals containing a minor allele at any of these 10 sites had an increased simulated phenotype (phenotype 2). 
+Aggregate_Chosen_common_causal.txt | Each line gives the SNP site that the SLT predicted was the common causal variant, for each dataset used.
+Aggregate_Chosen_rare_causal.txt | Each line gives the SNP site that the SLT predicted was a rare causal variant, for each dataset used.
+Aggregate_Pheno1Results.txt | Each line gives p-values for the SLT tested on phenotype 1. 
+Aggregate_Pheno2Results.txt | Each line gives p-values for the SLT tested on phenotype 2. 
