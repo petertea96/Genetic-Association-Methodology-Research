@@ -45,3 +45,12 @@ BIM_Rcode_SKAT_Linear.R | This R file was takeen from the SKAT package. I needed
 BIM_Rcode_Simulation_help.R | ...
 BIM_Rcode_Solution_function.R | The kernel matrices we are studying should be individual based and not haplotype based. The tree matrices so far are haplotype based. To truncate these (200x200) matrices to (100x100) matrices.
 BIM_Rcode_treesimilarityMODIFIED.R | Written by Kelly Burkett. This script takes tree data and can output any of the 5 specified tree kernels.
+
+
+## PSD Error Files Directory
+PSD = Positive Semi-Definite
+File name | Description
+--------- | ---------
+NoRecomb_PhenoAndGeno{ i }.txt | Phenotype and genotype data of a data file that experienced PSD issues
+treedata{ i }.txt	 | Gene tree data of a data file that experienced PSD issues
+PSD_RScript.R | R script that attempts to compute all 16 kernel functions of interest. It prints an error message whenever we produce a kernel that is not PSD.
