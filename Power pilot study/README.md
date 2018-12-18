@@ -50,6 +50,14 @@ Final Results | Contains aggregated results files.
 * __Pilot_Study_Step5.sh__
   ** Since we use Array jobs, all of our results are saved in many different files! We concatenate all of our results files into a single file. 
 
+## R scripts directory:
+
+Directory | Description
+--------- | ---------
+Pilot_Study_Analysis.R | R Script used to analyse all data in the Final Results directory.
+Pilot_Study_Part2.R | ...
+Pilot_Study_Part3.R | ...
+Pilot_Study_Part4.R | ...
 
 ## Final Results Directory
 
