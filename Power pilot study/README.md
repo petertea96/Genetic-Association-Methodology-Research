@@ -55,6 +55,9 @@ Final Results | Contains aggregated results files.
 
 File name | Description
 --------- | ---------
-Bash Scripts | Contains all BASH shell scripts used to submit jobs to Frontenac. All scripts are broken down into 5 distinct steps
-R Scripts | Contains all R scripts used in this experiment
-Final Results | Contains aggregated results files.
+Aggregate_Actual_common_causal_vector.txt | Contains all BASH shell scripts used to submit jobs to Frontenac. All scripts are broken down into 5 distinct steps
+Aggregate_Actual_rare_causal_table.txt | Contains all R scripts used in this experiment
+Aggregate_Chosen_common_causal.txt | Contains aggregated results files.
+Aggregate_Chosen_rare_causal.txt | ...
+Aggregate_Pheno1Results.txt | ...
+Aggregate_Pheno2Results.txt | ...
