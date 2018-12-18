@@ -51,3 +51,10 @@ Final Results | Contains aggregated results files.
   ** Since we use Array jobs, all of our results are saved in many different files! We concatenate all of our results files into a single file. 
 
 
+## Final Results Directory
+
+File name | Description
+--------- | ---------
+Bash Scripts | Contains all BASH shell scripts used to submit jobs to Frontenac. All scripts are broken down into 5 distinct steps
+R Scripts | Contains all R scripts used in this experiment
+Final Results | Contains aggregated results files.
