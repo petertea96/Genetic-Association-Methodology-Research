@@ -12,6 +12,17 @@ Final Results | Contains aggregated results files.
 
 ### Bash Scripts Directory
 
+File name | Description
+--------- | ---------
+Bash Scripts |   * Uses the *ms* program to simulate haplotype and gene tree data. There were 10 000 iterations (not all files will be useable though).
+  * The raw results from the _ms_ program are saved in the format of results{ i }.txt;
+  where i = 1, …, 10 000. 
+  
+  * The raw data will be saved in the directory “Pilot_Study_Raw_Data”.
+Contains all BASH shell scripts used to submit jobs to Frontenac. All scripts are broken down into 5 distinct steps
+R Scripts | Contains all R scripts used in this experiment
+Final Results | Contains aggregated results files.
+
 * __Pilot_Study_Step1.sh__
   * Uses the *ms* program to simulate haplotype and gene tree data. There were 10 000 iterations (not all files will be useable though).
   * The raw results from the _ms_ program are saved in the format of results{ i }.txt;
@@ -52,7 +63,7 @@ Final Results | Contains aggregated results files.
 
 ## R scripts directory:
 
-Directory | Description
+File name | Description
 --------- | ---------
 Pilot_Study_Analysis.R | R Script used to analyse all data in the Final Results directory.
 Pilot_Study_Part2.R | ...
