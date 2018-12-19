@@ -14,7 +14,7 @@
 
 #Read in the data:
 
-setwd("C:/Users/Peter/Documents/Uottawa/2018 - 2019 Honour's project/Cluster files/Final codes/Genetic-Association-Methodology-Research/Power pilot study")
+setwd("C:/Users/Peter/Documents/Uottawa/2018 - 2019 Honour's project/Cluster files/Final codes/Genetic-Association-Methodology-Research/Power pilot study/Final Results")
 
 Actual_common_causal = read.table("Aggregate_Actual_common_causal_vector.txt")
 Actual_rare_causal = read.table("Aggregate_Actual_rare_causal_table.txt")
@@ -102,7 +102,36 @@ names(rare_causal_success) = mynames
 rare_causal_success
 
 
+#####
+# --> Produce plots
+common_causal_success
+rare_causal_success
+myresults_part1 = cbind(Beta, common_causal_success, rare_causal_success)
 
+
+
+library(reshape2)
+Melted_myresults_part1 = melt(myresults_part1, id.var='Beta')
+colnames(Melted_myresults_part1) = c("Beta","Causal_model", "True_detection_rate" )
+Melted_myresults_part1 = Melted_myresults_part1[-c(1:16),]
+
+library(ggplot2)
+myplot1 = ggplot(data = Melted_myresults_part1,
+       aes(x = Beta, y = True_detection_rate, col=Causal_model)) + 
+  geom_line(size = 1) + 
+  scale_color_manual(values=c("#483D8B", "#F08080"))+
+  labs(x= "Beta",
+       y = "Proportion of true causal detection",
+       title = "Comparison of Single Locus Test true causal variant detection",
+       caption = "Peter Tea")+
+  theme_bw() +
+  theme(legend.title = element_text(size=10, 
+                                     face="bold"),
+        legend.text = element_text(size=10, 
+                                   face="bold"),
+    legend.position = c(0.8, 0.2)) 
+
+myplot1
 
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
@@ -142,16 +171,45 @@ P2_pvalues = read.table("Aggregate_Pheno2Results.txt")
 
 #Remove NA values...
 P2_pvalues = P2_pvalues[complete.cases(P2_pvalues),]
-nrow(P1_pvalues)
+nrow(P2_pvalues)
 
 #Create matrix that checks for each element if the p-value is statisticcally significant.
-P1_pvalues_which_significant = (P1_pvalues[,-c(1,2)] < 0.05) 
-rownames(P1_pvalues_which_significant) = row_name
-colnames(P1_pvalues_which_significant) = mynames
+P2_pvalues_which_significant = (P2_pvalues[,-c(1,2)] < 0.05) 
+rownames(P2_pvalues_which_significant) = row_name
+colnames(P2_pvalues_which_significant) = mynames
 
-P1_success = colSums(P1_pvalues_which_significant)/n
-names(P1_success) = mynames
-P1_success
+P2_success = colSums(P2_pvalues_which_significant)/n
+names(P2_success) = mynames
+P2_success
 
 
+###
+# --> Let's create some plots
+
+myresults_part2 = cbind(Beta, P1_success, P2_success)
+
+
+
+library(reshape2)
+Melted_myresults_part2 = melt(myresults_part2, id.var='Beta')
+colnames(Melted_myresults_part2) = c("Beta","Phenotype model", "Sensitivity" )
+Melted_myresults_part2 = Melted_myresults_part2[-c(1:16),]
+
+library(ggplot2)
+myplot2 = ggplot(data = Melted_myresults_part2,
+                 aes(x = Beta, y = Sensitivity, col= Phenotype_model)) + 
+  geom_line(size = 1) + 
+  scale_color_manual(values=c("#483D8B", "#F08080"))+
+  labs(x= "Beta",
+       y = "Sensitivity",
+       title = "Comparison of Sensitivities of the Single Locus Test under varying phenotype-genotype association strengths",
+       caption = "Peter Tea")+
+  theme_bw() +
+  theme(legend.title = element_text(size=10, 
+                                    face="bold"),
+        legend.text = element_text(size=10, 
+                                   face="bold"),
+        legend.position = c(0.82, 0.18)) 
+
+myplot2
 
