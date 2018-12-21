@@ -68,7 +68,7 @@ source("/global/home/hpc4300/BIM_Final_RCodes/BIM_RCode_SLT.R")
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
 #-----||-----||-----||-----||-----||Array Job Code:||-----||-----||-----||-----||-----||-----#
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
-#I set an aray job with 100 "arrays". I will split up the files to analyse into 10 chunks:
+#I set an aray job with 100 "arrays". I will split up the files to analyse into 100 chunks:
 #There are 3000 files in total to potentially analyse, so I split this into 100 chunks with
 #30 files belonging to each chunk.
 

@@ -115,9 +115,15 @@ Melted_myresults_part1 = melt(myresults_part1, id.var='Beta')
 colnames(Melted_myresults_part1) = c("Beta","Causal_model", "True_detection_rate" )
 Melted_myresults_part1 = Melted_myresults_part1[-c(1:16),]
 
+levels(Melted_myresults_part1$Causal_model)[levels(Melted_myresults_part1$Causal_model)=="common_causal_success"] <- "Single Common causal "
+levels(Melted_myresults_part1$Causal_model)[levels(Melted_myresults_part1$Causal_model)=="rare_causal_success"] <- "Multiple Rare causal"
+names(Melted_myresults_part1)[names(Melted_myresults_part1)=="Causal_model"]  <- "Causal Model"
+
+
+
 library(ggplot2)
 myplot1 = ggplot(data = Melted_myresults_part1,
-       aes(x = Beta, y = True_detection_rate, col=Causal_model)) + 
+       aes(x = Beta, y = True_detection_rate, col=`Causal Model`)) + 
   geom_line(size = 1) + 
   scale_color_manual(values=c("#483D8B", "#F08080"))+
   labs(x= "Beta",
@@ -192,12 +198,18 @@ myresults_part2 = cbind(Beta, P1_success, P2_success)
 
 library(reshape2)
 Melted_myresults_part2 = melt(myresults_part2, id.var='Beta')
-colnames(Melted_myresults_part2) = c("Beta","Phenotype model", "Sensitivity" )
+colnames(Melted_myresults_part2) = c("Beta","Phenotype_model", "Sensitivity" )
 Melted_myresults_part2 = Melted_myresults_part2[-c(1:16),]
+
+
+#--> Changing names of variables, and levels of variables to make legend look nicer...
+levels(Melted_myresults_part2$Phenotype_model)[levels(Melted_myresults_part2$Phenotype_model)=="P2_success"] <- "Phenotype 2"
+levels(Melted_myresults_part2$Phenotype_model)[levels(Melted_myresults_part2$Phenotype_model)=="P1_success"] <- "Phenotype 1"
+names(Melted_myresults_part2)[names(Melted_myresults_part2)=="Phenotype_model"]  <- "Phenotype Model"
 
 library(ggplot2)
 myplot2 = ggplot(data = Melted_myresults_part2,
-                 aes(x = Beta, y = Sensitivity, col= Phenotype_model)) + 
+                 aes(x = Beta, y = Sensitivity, col= `Phenotype Model`)) + 
   geom_line(size = 1) + 
   scale_color_manual(values=c("#483D8B", "#F08080"))+
   labs(x= "Beta",

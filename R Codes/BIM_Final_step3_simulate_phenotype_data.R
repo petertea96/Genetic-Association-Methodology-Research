@@ -20,7 +20,7 @@ source("/global/home/hpc4300/BIM_Final_RCodes/BIM_Rcode_Simulation_help.R")
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
 #-----||-----||-----||-----||-----||Array Job Code:||-----||-----||-----||-----||-----||-----#
 #  -----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----   #
-#I set an aray job with 100 "arrays". I will split up the files to analyse into 10 chunks:
+#I set an aray job with 100 "arrays". I will split up the files to analyse into 100 chunks:
 #There are 3000 files in total to potentially analyse, so I split this into 100 chunks with
 #30 files belonging to each chunk.
 
@@ -134,6 +134,20 @@ for (j in (starting:ending)){
     genodat[i,]=newhaplodat[2*i-1,]+newhaplodat[2*i,]
   }
   
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  #What if columns are the exact same? (I.E 100% correlated between SNPs?) Let's remove them.
+  
+  genodat = unique.matrix(t(genodat)) 
+  #Returns a matrix with only unique ROWS (so I need the transpose)
+  
+  genodat = t(genodat)
+  #*** If this section was too confusing, I've added a more in-depth explanation in my ReadME file.
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  
+  segsites = ncol(genodat)
+  
+  #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
+  
   
   #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
   ##Again, we can use the following code to check if our data manipulation above succeeded:
@@ -144,8 +158,8 @@ for (j in (starting:ending)){
   
   
   
-  ## STEP 4: Simulate some continuous phenotype data. Both models chosen so that power is ____
-  ## Assume that minor allele of causal increases phenotype mean by ____
+  ## STEP 4: Simulate some continuous phenotype data. Both models chosen so that power is around 60%
+
   
   
   #-----||-----||-----||-----||Phenotype 1 causal site||-----||-----||-----||-----||-----#
@@ -178,8 +192,8 @@ for (j in (starting:ending)){
   
   
   ##Now, we simulate the data.
-  y1 = sim_pheno1(beta=0.45, common.causal = common.causal)
-  y2 = sim_pheno2(beta =0.8, rare.causal = hascausal )
+  y1 = sim_pheno1(beta=0.55, common.causal = common.causal)
+  y2 = sim_pheno2(beta =1.1, rare.causal = hascausal )
   
   genodat=data.frame(y1,y2,genodat)
   colnames(genodat)=c("Pheno1","Pheno2",paste("V",1:segsites,sep=""))
