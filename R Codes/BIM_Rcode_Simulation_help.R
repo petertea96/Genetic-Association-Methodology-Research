@@ -37,10 +37,10 @@ get_common_causal = function(UpperBound=0.35, LowerBound=0.25, genodata){
 
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
 
-get_rare_causals = function(UpperBound=0.05, LowerBound=0, genodata, numsites=10){
+get_rare_causals = function(UpperBound=0.05, LowerBound=0.01, genodata, numsites=10){
   #This function randomly chooses 10 SNP site with proper MAF to be the rare causal sites.
   #By default, my decision criteria for the rare causal sites:
-  #Rare causal MAF: 0 < MAF < 0.01; Choose the same # of rare causals for ALL simulations.
+  #Rare causal MAF: 0.01 < MAF < 0.05; Choose the same # of rare causals for ALL simulations.
   
   Minor_Allele_Frequencies = colSums(genodata)/(2*nrow(genodata))
   
