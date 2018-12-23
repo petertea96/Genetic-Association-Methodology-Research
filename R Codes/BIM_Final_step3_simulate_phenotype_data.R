@@ -177,7 +177,7 @@ for (j in (starting:ending)){
   
   
   #-----||-----||-----||-----||Phenotype 2 causal sites||-----||-----||-----||-----||-----#
-  rare.causal=get_rare_causals(genodata=genodat)
+  rare.causal=get_rare_causals(genodata=genodat, UpperBound=0.05, LowerBound=0)
   #Obtain 10 random sites to act as the rare causal sites.
   
   if(is.null(rare.causal)){
