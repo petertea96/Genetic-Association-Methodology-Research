@@ -32,6 +32,14 @@ SLT_P1_Results = SLT_P1_Results[complete.cases(SLT_P1_Results),]
 SLT_P2_Results = SLT_P2_Results[complete.cases(SLT_P2_Results),]
 
 
+# --> Re-write data tables
+colnames(Kernel_P1_Results) = colnames(Kernel_P2_Results) = column_names
+colnames(SLT_P1_Results) =   colnames(SLT_P2_Results) = c("Iteration", "Assoc_Stat", "P-val")
+
+write.table(x = Kernel_P1_Results, file="Clean_Pheno1Results.txt")
+write.table(x = Kernel_P2_Results, file="Clean_Pheno2Results.txt")
+write.table(SLT_P1_Results, file="Clean_SLT1Results.txt")
+write.table(SLT_P2_Results, file="Clean_SLT2Results.txt")
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
 #-----||-----||-----||-----||   Kernel Analysis ||-----||-----||-----||-----||-----||-----#
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
