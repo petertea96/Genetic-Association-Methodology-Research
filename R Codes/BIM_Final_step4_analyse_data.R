@@ -242,7 +242,7 @@ Pheno1Results = Pheno1Results[rowSums(is.na(Pheno1Results)) != ncol(Pheno1Result
 
 
 Pheno2Results = rbind(Phenotype2_Results_SKAT, Phenotype2_Results_Reg, Phenotype2_Results_MDMR)
-Pheno1Results = Pheno2Results[rowSums(is.na(Pheno2Results)) != ncol(Pheno2Results), ]
+Pheno2Results = Pheno2Results[rowSums(is.na(Pheno2Results)) != ncol(Pheno2Results), ]
 
 P1_results_name = paste("Pheno1Results_", task_id, ".txt", sep="")
 P2_results_name = paste("Pheno2Results_", task_id, ".txt", sep="")

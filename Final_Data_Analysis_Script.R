@@ -70,8 +70,9 @@ Kernel_Sensitivity = function(mydata){
   
 }
 
-Kernel_Sensitivity(P1_SKAT)
-
+round(Kernel_Sensitivity(P1_SKAT), 3)
+round(Kernel_Sensitivity(P1_GTSR), 3)
+round(Kernel_Sensitivity(P1_MDMR), 3)
 
 ### Phenotype 1 Analysis ###
 P2_SKAT = filter(Kernel_P2_Results, Assoc_Stat == "SKAT")
@@ -80,9 +81,9 @@ P2_GTSR = filter(Kernel_P2_Results, Assoc_Stat == "GTSR")
 
 nrow(P2_SKAT); nrow(P2_MDMR); nrow(P2_GTSR)
 
-Kernel_Sensitivity(P2_SKAT); 
-Kernel_Sensitivity(P2_MDMR); 
-Kernel_Sensitivity(P2_GTSR)
+round(Kernel_Sensitivity(P2_SKAT),3); 
+round(Kernel_Sensitivity(P2_MDMR), 3); 
+round(Kernel_Sensitivity(P2_GTSR), 3)
 
 
 #-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----||-----#
@@ -94,7 +95,7 @@ SLT_P1_pvalues_which_significant = (SLT_P1_Results[,-c(1,2)] < 0.05)
 
 #--> Calculate Sensitivity
 Sensitivity_SLT_P1 = sum (SLT_P1_pvalues_which_significant) / nrow(SLT_P1_Results) 
-
+Sensitivity_SLT_P1
 
 ######### -- SLT for Phenotype 2 -- ##########
 
@@ -103,7 +104,7 @@ SLT_P2_pvalues_which_significant = (SLT_P2_Results[,-c(1,2)] < 0.05)
 
 #--> Calculate Sensitivity
 Sensitivity_SLT_P2 = sum (SLT_P2_pvalues_which_significant) / nrow(SLT_P2_Results) 
-
+Sensitivity_SLT_P2
 
 
 

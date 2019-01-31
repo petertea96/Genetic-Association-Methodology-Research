@@ -124,7 +124,7 @@ names(Melted_myresults_part1)[names(Melted_myresults_part1)=="Causal_model"]  <-
 library(ggplot2)
 myplot1 = ggplot(data = Melted_myresults_part1,
        aes(x = Beta, y = True_detection_rate, col=`Causal Model`)) + 
-  geom_line(size = 1) + 
+  geom_line(size = 1) + geom_point() +
   scale_color_manual(values=c("#483D8B", "#F08080"))+
   labs(x= "Beta",
        y = "Proportion of true causal detection",
@@ -210,11 +210,12 @@ names(Melted_myresults_part2)[names(Melted_myresults_part2)=="Phenotype_model"] 
 library(ggplot2)
 myplot2 = ggplot(data = Melted_myresults_part2,
                  aes(x = Beta, y = Sensitivity, col= `Phenotype Model`)) + 
-  geom_line(size = 1) + 
+  geom_line(size = 1) + geom_point() + 
   scale_color_manual(values=c("#483D8B", "#F08080"))+
   labs(x= "Beta",
        y = "Sensitivity",
-       title = "Comparison of Sensitivities of the Single Locus Test under varying phenotype-genotype association strengths",
+       title = "Comparison of Single Locus Test power under varying
+       phenotype-genotype association signals",
        caption = "Peter Tea")+
   theme_bw() +
   theme(legend.title = element_text(size=10, 
