@@ -1,5 +1,5 @@
 # UOttawa-Honours-Project
-This repository contains work that was completed during a summer funded research project (Natural Sciences and Engineering Research Council - Undergraduate Student Research Award)  in 2018. It is also continuing as an Honour's Project which will eventually be submitted to the faculty of Science upon completion. 
+This repository contains work that was completed during a summer funded research project (Natural Sciences and Engineering Research Council - Undergraduate Student Research Award)  in 2018 as well as work produced for an Honour's Project which will eventually be submitted to the faculty of Science upon completion. 
 
 
 # Project Description
@@ -12,9 +12,13 @@ This repository contains work that was completed during a summer funded research
 Directory | Description
 --------- | ---------
 Bash Scripts | Contains all BASH shell scripts used to submit jobs to Frontenac. 
+Clean Data | Contained processed data files. Data included is the p-value for all kernel functions applied to all kernel association statistics.
+Crohns Disease | Contains all files created in the analysis of the Crohns disease dataset
+PSD Error files | Contains data files (from a pilot study), that have issues with PSD.
+Power Pilot Study | Scripts and data files for a pilot study ran to determine power.
 R Scripts | Contains all R scripts used in this Project
-Final Results | Contains aggregated results files.
-PSD Error files | Contains files (from a previous pilot study), that contains data files that have issues with PSD.
+Raw Data | Contains aggregated results files.
+
 
 
 ## BASH Scripts Directory
