@@ -1,5 +1,7 @@
 ## Clean Data
 
+All Clean data here were processed from the "Raw data found in the Raw Data directory.
+
 File name | Description
 --------- | ---------
 Clean_Pheno1Results.txt |  All complete Kernel results for phenotype 1
