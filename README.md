@@ -1,60 +1,27 @@
 # UOttawa-Honours-Project
-This repository contains work that was completed during a summer funded research project (Natural Sciences and Engineering Research Council - Undergraduate Student Research Award)  in 2018 as well as work produced for an Honour's Project which will eventually be submitted to the faculty of Science upon completion. 
+This repository contains work that was completed during a summer funded research project (NSERC - USRA)  in 2018 as well as work produced for an Honour's Project which will eventually be submitted to the faculty of Science upon completion. 
 
 
 # Project Description
 
-> Recent advancements in sequencing technologies have made it easier to identify both rare and common genetic variants in the human genome. Along with these sequencing improvements, genetic association studies have become more prominent and are used to test for association between genetic variation and a phenotype of interest such as a disease state. One prospering field of genetic association tests are kernel-based association methodologies. These methodologies first require specification of a kernel function, which outputs a map that describes the degree of genetic similarity between pairs of individuals; many kernel functions have been proposed with strategies ranging from scoring genotype similarity to tree-based approaches. Then, using these maps, a variety of different kernel statistics can be employed to measure the strength of association between genetic similarity with a trait of interest. Due to the rapid expansion of this field, there has been no study that has described and compared the performances of all these different types of kernel-based association statistics in conjunction with the different kernel functions. 
-
+> Please see https://github.com/petertea96/Statistical_Genetics_Final_Report for the final report, describing all project details and study analysis.
 
 ## Directory List:
 
 Directory | Description
 --------- | ---------
-Bash Scripts | Contains all BASH shell scripts used to submit jobs to Frontenac. 
+Bash Scripts | Contains all BASH shell scripts used to submit jobs to Frontenac cluster 
 Clean Data | Contained processed data files. Data included is the p-value for all kernel functions applied to all kernel association statistics.
 Crohns Disease | Contains all files created in the analysis of the Crohns disease dataset
 PSD Error files | Contains data files (from a pilot study), that have issues with PSD.
-Power Pilot Study | Scripts and data files for a pilot study ran to determine power.
-R Scripts | Contains all R scripts used in this Project
-Raw Data | Contains aggregated results files.
+Power Pilot Study | Scripts and data files for a pilot study ran to determine power
+R Codes | Contains all R scripts used in this Project
+Raw Data | Contains unprocessed aggregated results files.
+Summary_Statistics | Contains files analysing summary statistics of simulated data
+
+
+Please note that all directories will have their own README files as well...
 
 
 
-## BASH Scripts Directory
 
-File name | Description
---------- | ---------
-BIM_Final_Step1_get_data.sh | This script generates genetic datasets.
-BIM_Final_Step2_clean_data.sh	 | Perform data extraction and preparation.
-BIM_Final_Step3_simulate_phenotype_data.sh | Simulate phenotypes.
-BIM_Final_Step4_analyse_data.sh |  Apply all kernel functions and test statistics. Then, analyse all of our data
-
-
-## R Scripts Directory
-
-File name | Description
---------- | ---------
-BIM_Final_step2_prelim_codes.R | ...
-BIM_Final_step3_simulate_phenotype_data.R	 | ...
-BIM_Final_step4_analyse_data.R | ...
-BIM_RCode_NEW_gtsm.R | Written by Zhe Gao with slight modifications made by me... this script calculates the Gene Trait Similarity Regression Kernel statistic.
-BIM_RCode_SLT.R | ...
-BIM_Rcode_Calculate_all_kernels.R | ...
-BIM_Rcode_Function.R | This R file was taken from the SKAT package. I needed it since it contains some functions to compute the SKAT kernel.
-BIM_Rcode_MDMR_Code.R | Written by Zhe Gao. This script calculates the MDMR Kernel statistic.
-BIM_Rcode_ORDER.R | The distance matrix outputted from “treeSimilarity()” doesn’t order the haplotypes correctly. For example, we assume that hap1 and hap2 belong to individual 1. To order the rows and columns to go from hap1 to hap200, we use the “order()” function contained in the “ORDER.R” file.
-BIM_Rcode_SKAT_Linear.R | This R file was takeen from the SKAT package. I needed it since it contains some functions to compute the SKAT kernel.
-BIM_Rcode_Simulation_help.R | ...
-BIM_Rcode_Solution_function.R | The kernel matrices we are studying should be individual based and not haplotype based. The tree matrices so far are haplotype based. To truncate these (200x200) matrices to (100x100) matrices.
-BIM_Rcode_treesimilarityMODIFIED.R | Written by Kelly Burkett. This script takes tree data and can output any of the 5 specified tree kernels.
-
-
-## PSD Error Files Directory
-PSD = Positive Semi-Definite
-
-File name | Description
---------- | ---------
-NoRecomb_PhenoAndGeno{i}.txt | Phenotype and genotype data of a data file that experienced PSD issues
-treedata{ i }.txt	 | Gene tree data of a data file that experienced PSD issues
-PSD_RScript.R | R script that attempts to compute all 16 kernel functions of interest. It prints an error message whenever we produce a kernel that is not PSD.
