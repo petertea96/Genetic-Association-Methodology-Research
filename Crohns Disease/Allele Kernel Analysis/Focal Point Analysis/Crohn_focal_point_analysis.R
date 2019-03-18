@@ -8,12 +8,19 @@
 
 setwd("/global/project/hpcg1578/Crohn/Kernel_Analysis/JobFiles")
 
+Phenotype_Results = data.frame(Method = character(),IBS = numeric(),
+                               AM = numeric(), AS = numeric(), h1 = numeric(),
+                               Skat = numeric(), stringsAsFactors = FALSE )
 
-
+SKAT_indices = seq(1,300, by=3)
+GTSM_indices = seq(2,300, by = 3)
+MDMR_indices=seq(3, 300, by=3)
 for (file_number in (1:100)){
-  directory_name = paste("Run_", file_number)
+  directory_name = paste("Run_", file_number, sep="")
   
-  haplodat = read.delim("crohn5q31_haplo.dat", colClasses = "character")
+  setwd(directory_name)
+  
+  haplodat = read.delim("crohn5q31_haplo.dat", colClasses = "character", header=FALSE)
   
   
   FirstLine=unlist(strsplit(haplodat[1,1],split=""))
@@ -45,8 +52,7 @@ for (file_number in (1:100)){
   #Data set up such that the binary phenotype alternates between 1 and 0 for consecutive rows.
   if (nrow(newhaplodat) %% 2 == 1){
     status_phenotype=rep(c(1,0),ceiling( nrow(newhaplodat)/2) )[-length(status_phenotype)]
-  }
-  else {
+  }else {
     status_phenotype=rep(c(1,0),nrow(newhaplodat)/2)
   }
     
@@ -59,10 +65,7 @@ for (file_number in (1:100)){
   
   mykernels = get.kernels(G=newhaplodat, n=nrow(newhaplodat), K=ncol(newhaplodat), treename="blah")  
   
-  Phenotype_Results = data.frame(Method = character(),IBS = numeric(),
-                                 AM = numeric(), AS = numeric(), h1 = numeric(),
-                                 Skat = numeric(), stringsAsFactors = FALSE )
-  
+
   #Phenotype_Results = data.frame(Method = character(),IBS = numeric(),
   #                                     AM = numeric(), AS = numeric(), h1 = numeric(),
   #                                     Skat = numeric(),Tree1 = numeric(), Tree2 = numeric(),
@@ -94,7 +97,7 @@ for (file_number in (1:100)){
   
   for (j in (1:(length(p.val.SKAT)))){
     #Add SKAT p-values to our results table.
-    Phenotype_Results[1,j+1] = p.val.SKAT[[j]]
+    Phenotype_Results[SKAT_indices[file_number],j+1] = p.val.SKAT[[j]]
   }
   
   
@@ -104,7 +107,7 @@ for (file_number in (1:100)){
   
   for (j in (1:length(p.val.gtsm))){
     #Fill in results table with GTSR p-values
-    Phenotype_Results[2,j+1] = p.val.gtsm[j] 
+    Phenotype_Results[GTSM_indices[file_number],j+1] = p.val.gtsm[j] 
   }
   
   
@@ -114,24 +117,19 @@ for (file_number in (1:100)){
   
   for (j in (1:length(p.val.MDMR))){
     #Fill in results table with MDMR p-values
-    Phenotype_Results[3,j+1] = p.val.MDMR[j]
+    Phenotype_Results[MDMR_indices[file_number],j+1] = p.val.MDMR[j]
   }
   
   labels = c("SKAT", "GTSM", "MDMR")
-  for (i in 1:length(labels)){
-    Phenotype_Results[i,1] = labels[i]
-  } 
-  
-  write.table(Phenotype_Results,paste("New_Allele_Kernel_Data", file_number, ".txt"),quote=F,row=F,col=F)
-  
-  
-  
-  
-  
-  
-  
+#  for (i in 1:length(labels)){
+ #   Phenotype_Results[i,1] = labels[i]
+#  } 
   
 } 
+
+setwd("/global/project/hpcg1578/Crohn/Kernel_Analysis/Focal_Analysis")
+write.table(Phenotype_Results,paste("New_Allele_Kernel_Data",".txt"),quote=F,row=F,col=F)
+
 
 
 
