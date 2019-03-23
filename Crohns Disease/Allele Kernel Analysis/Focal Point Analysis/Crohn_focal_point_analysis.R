@@ -6,7 +6,7 @@
 #Today is March 9th, 2019
 .libPaths("/global/home/hpc4300/RPackages")
 
-setwd("/global/project/hpcg1578/Crohn/Kernel_Analysis/JobFiles")
+
 
 Phenotype_Results = data.frame(Method = character(),IBS = numeric(),
                                AM = numeric(), AS = numeric(), h1 = numeric(),
@@ -16,6 +16,7 @@ SKAT_indices = seq(1,300, by=3)
 GTSM_indices = seq(2,300, by = 3)
 MDMR_indices=seq(3, 300, by=3)
 for (file_number in (1:100)){
+  setwd("/global/project/hpcg1578/Crohn/Kernel_Analysis/JobFiles")
   directory_name = paste("Run_", file_number, sep="")
   
   setwd(directory_name)
@@ -83,7 +84,7 @@ for (file_number in (1:100)){
   
   for (j in 1:length(mykernels)){
     #Fill in list of SKAT p-values
-    p.val.SKAT[[j]]= tryCatch(SKAT(Z=as.matrix(G), obj=null.model, kernel = mykernels[[j]])$p.value,
+    p.val.SKAT[[j]]= tryCatch(SKAT(Z=as.matrix(newhaplodat), obj=null.model, kernel = mykernels[[j]])$p.value,
                               error = function(e) 
                                 paste("NA"))    
     #-----||-----||-----|| - What is tryCatch()?  - ||-----||-----||-----#
@@ -99,7 +100,7 @@ for (file_number in (1:100)){
     #Add SKAT p-values to our results table.
     Phenotype_Results[SKAT_indices[file_number],j+1] = p.val.SKAT[[j]]
   }
-  
+  Phenotype_Results[SKAT_indices[file_number],1] = "SKAT"
   
   #-----||-----||-----|| - Gene Trait Similarity Regression  - ||-----||-----||-----#
   p.val.gtsm = similarity.regression.pheno1(P1=status_phenotype,n=nrow(newhaplodat), kernel.list=mykernels)
@@ -109,7 +110,7 @@ for (file_number in (1:100)){
     #Fill in results table with GTSR p-values
     Phenotype_Results[GTSM_indices[file_number],j+1] = p.val.gtsm[j] 
   }
-  
+     Phenotype_Results[GTSM_indices[file_number],1] = "GTSM"
   
   #-----||-----||-----||-----|| - MDMR - ||-----||-----||-----||-----#
   p.val.MDMR = pval_P1_MDMR_function(P1=status_phenotype, kernel.list=mykernels)
@@ -120,6 +121,7 @@ for (file_number in (1:100)){
     Phenotype_Results[MDMR_indices[file_number],j+1] = p.val.MDMR[j]
   }
   
+	Phenotype_Results[MDMR_indices[file_number],1] = "MDMR"
   labels = c("SKAT", "GTSM", "MDMR")
 #  for (i in 1:length(labels)){
  #   Phenotype_Results[i,1] = labels[i]
@@ -128,7 +130,7 @@ for (file_number in (1:100)){
 } 
 
 setwd("/global/project/hpcg1578/Crohn/Kernel_Analysis/Focal_Analysis")
-write.table(Phenotype_Results,paste("New_Allele_Kernel_Data",".txt"),quote=F,row=F,col=F)
+write.table(Phenotype_Results,paste("New_Allele_Kernel_Data",".txt", sep=""),quote=F,row=F,col=F)
 
 
 
