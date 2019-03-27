@@ -18,7 +18,7 @@ library(ggplot2)
 ggplot(Stacked_SKAT, aes(x=value, y = ..scaled.., fill=variable)) + geom_density() + facet_wrap(~variable) +
   geom_vline(xintercept = 0.05, show.legend = TRUE, linetype = "dashed", color = "red") +
   ggtitle("SKAT - Allele/Genotype kernel association distributions") +
-  xlab("Allele/Genotype kernel") + ylab("Statistic Density") +
+  xlab("P-value") + ylab("Scaled Density") +
   theme_classic() +
   theme(strip.background = element_rect(fill="lightblue")) +
   scale_fill_discrete(name = "Kernel")
@@ -36,7 +36,7 @@ library(ggplot2)
 ggplot(Stacked_MDMR, aes(x=value, y = ..scaled.., fill=variable)) + geom_density() + facet_wrap(~variable) +
   geom_vline(xintercept = 0.05, show.legend = TRUE, linetype = "dashed", color = "red") +
   ggtitle("MDMR - Allele/Genotype kernel association distributions") +
-  xlab("Allele/Genotype kernel") + ylab("Statistic Density") +
+  xlab("P-value") + ylab("Scaled Density") +
   theme_classic() +
   theme(strip.background = element_rect(fill="lightgreen")) +
   scale_fill_discrete(name = "Kernel")
@@ -50,11 +50,11 @@ library(reshape2)
 Stacked_GTSM = melt(data=GTSM, id.vars = 1) 
 
 library(ggplot2)
-ggplot(Stacked_GTSM, aes(x=value, y = ..scaled.., fill=variable)) + geom_density() + facet_wrap(~variable) +
+ggplot(Stacked_GTSM, aes(x=value, y=..scaled.., fill=variable)) + geom_density() + facet_wrap(~variable) +
   geom_vline(xintercept = 0.05, show.legend = TRUE, linetype = "dashed", color = "red") +
   ggtitle("GTSM - Allele/Genotype kernel association distributions") +
-  xlab("Allele/Genotype kernel") + ylab("Statistic Density") +
-  theme_classic() +
+  xlab("P-value") + ylab("Scaled Density") +
+  theme_classic() + 
   theme(strip.background = element_rect(fill="lightgreen")) +
   scale_fill_discrete(name = "Kernel")
 
