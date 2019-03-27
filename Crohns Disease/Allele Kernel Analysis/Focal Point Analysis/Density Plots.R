@@ -4,6 +4,8 @@ focal_data = read.table("New_Allele_Kernel_Data.txt" )
 View(focal_data)
 colnames(focal_data) = c("Statistic", "IBS", "AM", "AS", "H1", "SKAT")
 
+focal_data = focal_data[,-4] #Accidently added AS kernel...but we don' want to study AS
+# - 3/27/2019
 
 ### ----- SKAT ----- ###
 library(dplyr)
@@ -18,7 +20,8 @@ ggplot(Stacked_SKAT, aes(x=value, y = ..scaled.., fill=variable)) + geom_density
   ggtitle("SKAT - Allele/Genotype kernel association distributions") +
   xlab("Allele/Genotype kernel") + ylab("Statistic Density") +
   theme_classic() +
-  theme(strip.background = element_rect(fill="lightblue")) 
+  theme(strip.background = element_rect(fill="lightblue")) +
+  scale_fill_discrete(name = "Kernel")
 
 
 
@@ -35,7 +38,8 @@ ggplot(Stacked_MDMR, aes(x=value, y = ..scaled.., fill=variable)) + geom_density
   ggtitle("MDMR - Allele/Genotype kernel association distributions") +
   xlab("Allele/Genotype kernel") + ylab("Statistic Density") +
   theme_classic() +
-  theme(strip.background = element_rect(fill="lightgreen")) 
+  theme(strip.background = element_rect(fill="lightgreen")) +
+  scale_fill_discrete(name = "Kernel")
 
 
 ### ----- GTSR ----- ###
@@ -51,7 +55,8 @@ ggplot(Stacked_GTSM, aes(x=value, y = ..scaled.., fill=variable)) + geom_density
   ggtitle("GTSM - Allele/Genotype kernel association distributions") +
   xlab("Allele/Genotype kernel") + ylab("Statistic Density") +
   theme_classic() +
-  theme(strip.background = element_rect(fill="lightgreen")) 
+  theme(strip.background = element_rect(fill="lightgreen")) +
+  scale_fill_discrete(name = "Kernel")
 
 
 
