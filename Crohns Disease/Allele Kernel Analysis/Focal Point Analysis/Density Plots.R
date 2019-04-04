@@ -52,7 +52,7 @@ Stacked_GTSM = melt(data=GTSM, id.vars = 1)
 library(ggplot2)
 ggplot(Stacked_GTSM, aes(x=value, y=..scaled.., fill=variable)) + geom_density() + facet_wrap(~variable) +
   geom_vline(xintercept = 0.05, show.legend = TRUE, linetype = "dashed", color = "red") +
-  ggtitle("GTSM - Allele/Genotype kernel association distributions") +
+  ggtitle("GTSR - Allele/Genotype kernel association distributions") +
   xlab("P-value") + ylab("Scaled Density") +
   theme_classic() + 
   theme(strip.background = element_rect(fill="lightgreen")) +
