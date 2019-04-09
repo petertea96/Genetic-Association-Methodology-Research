@@ -75,7 +75,7 @@ similarity.regression.pheno1 = function(P1,n, kernel.list ){
   ## stored in matrix wald.pheno1.permu
   ## recall the columns of s_ vectors contains similarities of distinct pairs
   ## of individuals computed based on a particular kernel
-  permu.time =500
+  permu.time =10000
   z1.per = z1
   wald.pheno1.permu = matrix(rep (0, permu.time*length(chr)), ncol = length(chr))
   for (t in 1:permu.time) {
@@ -167,7 +167,7 @@ similarity.regression.pheno2 = function(P2,n, kernel.list){
   ## stored in matrix wald.pheno1.permu
   ## recall the columns of s_ vectors contains similarities of distinct pairs
   ## of individuals computed based on a particular kernel
-  permu.time =500
+  permu.time =10000
   z2.per = z2
   wald.pheno2.permu = matrix(rep (0, permu.time*length(chr)), ncol = length(chr))
   for (t in 1:permu.time) {

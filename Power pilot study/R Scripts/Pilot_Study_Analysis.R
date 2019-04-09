@@ -213,7 +213,7 @@ myplot2 = ggplot(data = Melted_myresults_part2,
   geom_line(size = 1) + geom_point() + 
   scale_color_manual(values=c("#483D8B", "#F08080"))+
   labs(x= "Beta",
-       y = "Sensitivity",
+       y = "Power",
        title = "Comparison of Single Locus Test power under varying
        phenotype-genotype association signals",
        caption = "Peter Tea")+
