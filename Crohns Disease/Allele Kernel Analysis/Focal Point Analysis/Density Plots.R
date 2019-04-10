@@ -15,6 +15,7 @@ library(reshape2)
 Stacked_SKAT = melt(data=SKAT, id.vars = 1) 
 Stacked_SKAT$x_column = rep(c(1:100),4)
 Stacked_SKAT$y = -log10(Stacked_SKAT$value)
+
 library(ggplot2)
 ggplot(Stacked_SKAT, aes(x = x_column, y = y)) + facet_wrap(~variable) +
   geom_line(color="blue") + 
@@ -54,7 +55,7 @@ ggplot(Stacked_MDMR, aes(x = x_column, y = y)) + facet_wrap(~variable) +  ylim(0
   ggtitle("MDMR - Allele/Genotype kernel association distributions") +
   xlab("Focal Point") + ylab("-log10(P-value)") +
   theme_classic() +
-  theme(strip.background = element_rect(fill="violet")) +
+  theme(strip.background = element_rect(fill="lightgreen")) +
   scale_fill_discrete(name = "Kernel")
 
 
@@ -83,7 +84,7 @@ ggplot(Stacked_GTSM, aes(x = x_column, y = y)) + facet_wrap(~variable) + ylim(0,
   ggtitle("SimReg - Allele/Genotype kernel association distributions") +
   xlab("Focal Point") + ylab("-log10(P-value)") +
   theme_classic() + 
-  theme(strip.background = element_rect(fill="lightgreen")) +
+  theme(strip.background = element_rect(fill="lightcoral")) +
   scale_fill_discrete(name = "Kernel")
 
 

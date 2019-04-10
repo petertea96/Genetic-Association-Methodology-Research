@@ -38,7 +38,7 @@ ggplot(GTSR_reshaped, aes(x=x_column, y = value))+ facet_wrap(~variable) +
   ggtitle("SimReg - Tree Kernel association statistic distributions") +
   xlab("Focal Point") + ylab("Statistic value") +
   theme_classic() + 
-  theme(strip.background = element_rect(fill="lightgreen")) +
+  theme(strip.background = element_rect(fill="lightcoral")) +
   scale_fill_discrete(name = "Kernel")
 
 ggplot(MDMR_reshaped, aes(x=x_column, y = value))+ facet_wrap(~variable) +
@@ -47,7 +47,7 @@ ggplot(MDMR_reshaped, aes(x=x_column, y = value))+ facet_wrap(~variable) +
   ggtitle("MDMR - Tree Kernel association statistic distributions") +
   xlab("Focal Point") + ylab("Statistic value") +
   theme_classic() + 
-  theme(strip.background = element_rect(fill="lightblue")) +
+  theme(strip.background = element_rect(fill="lightgreen")) +
   scale_fill_discrete(name = "Kernel")
 
 
