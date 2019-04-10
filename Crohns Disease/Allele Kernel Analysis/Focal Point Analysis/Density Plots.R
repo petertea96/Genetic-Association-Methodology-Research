@@ -21,7 +21,7 @@ ggplot(Stacked_SKAT, aes(x = x_column, y = y)) + facet_wrap(~variable) +
   geom_line(color="blue") + 
   geom_point(colour = "black", fill="white", size = 1)+
   #geom_vline(xintercept = 0.05, show.legend = TRUE, linetype = "dashed", color = "red") +
-  ggtitle("SKAT - Allele/Genotype kernel association distributions") +
+  ggtitle("SKAT - Genotype scoring kernel association distributions") +
   xlab("Focal Point") + ylab("-log10(P-value)") +
   theme_classic() +
   theme(strip.background = element_rect(fill="lightblue")) +
@@ -52,7 +52,7 @@ ggplot(Stacked_MDMR, aes(x = x_column, y = y)) + facet_wrap(~variable) +  ylim(0
   geom_line(color="blue") + 
   geom_point(colour = "black", fill="white", size = 1)+  
   #geom_vline(xintercept = 0.05, show.legend = TRUE, linetype = "dashed", color = "red") +
-  ggtitle("MDMR - Allele/Genotype kernel association distributions") +
+  ggtitle("MDMR - Genotype scoring kernel association distributions") +
   xlab("Focal Point") + ylab("-log10(P-value)") +
   theme_classic() +
   theme(strip.background = element_rect(fill="lightgreen")) +
@@ -81,7 +81,7 @@ ggplot(Stacked_GTSM, aes(x = x_column, y = y)) + facet_wrap(~variable) + ylim(0,
   geom_point(colour = "black", fill="white", size = 1)+ 
   
   #geom_vline(xintercept = 0.05, show.legend = TRUE, linetype = "dashed", color = "red") +
-  ggtitle("SimReg - Allele/Genotype kernel association distributions") +
+  ggtitle("SimReg - Genotype scoring kernel association distributions") +
   xlab("Focal Point") + ylab("-log10(P-value)") +
   theme_classic() + 
   theme(strip.background = element_rect(fill="lightcoral")) +
